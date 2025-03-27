@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const GameSelect = ({ games, fetchGames, setGameId }) => {
+const GameSelect = ({ games, fetchGames, setGameImage }) => {
   useEffect(() => {
     fetchGames();
   }, []);
@@ -9,7 +9,10 @@ const GameSelect = ({ games, fetchGames, setGameId }) => {
     <div className="w-full max-w-s mx-auto">
       <select
         onChange={({ target: { value } }) => {
-          setGameId(parseInt(value));
+          setGameImage((prev) => ({
+            ...prev,
+            game: parseInt(value),
+          }));
         }}
         className="block w-full mt-2 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-500"
       >

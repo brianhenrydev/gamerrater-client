@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const CategorySelect = ({ setNewGame }) => {
+const CategorySelect = ({ setGame }) => {
   const [categories, setCategories] = useState([
     { id: 1, label: "Error Fetching Data" },
   ]);
@@ -18,7 +18,7 @@ const CategorySelect = ({ setNewGame }) => {
       <div className="w-full max-w-s mx-auto">
         <select
           onChange={({ target: { value: category } }) => {
-            setNewGame((prev) => ({
+            setGame((prev) => ({
               ...prev,
               categories: [parseInt(category)],
             }));

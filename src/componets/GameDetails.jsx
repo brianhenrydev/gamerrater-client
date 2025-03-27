@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import GameReviews from "./GameReviews";
 
 const GameDetails = () => {
   const { gameId } = useParams();
+  const navigate = useNavigate();
   const [game, setGame] = useState({
     title: "",
     release_year: "",
@@ -13,14 +14,11 @@ const GameDetails = () => {
     recommended_age: 0,
   });
   const [reviews, setReviews] = useState([
-    { id: 1, content: "test" },
-    { id: 2, content: "test" },
-    { id: 3, content: "test" },
-    { id: 4, content: "test" },
+    { id: 1, content: "reviews loading..." },
   ]);
 
   const fetchReviews = () => {
-    fetch("", {
+    fetch(`http://localhost:8000/game-reviews?game_id=${gameId}`, {
       method: "GET",
       headers: {
         Authorization: `Token ${JSON.parse(localStorage.getItem("gamer_token")).token}`,
@@ -32,7 +30,7 @@ const GameDetails = () => {
       });
   };
 
-  useEffect(() => {
+  const fetchGames = () => {
     fetch(`http://localhost:8000/games/${gameId}`, {
       method: "GET",
       headers: {
@@ -43,6 +41,9 @@ const GameDetails = () => {
       .then((game) => {
         setGame(game);
       });
+  };
+  useEffect(() => {
+    fetchGames();
   }, [gameId]);
   return (
     <div>
@@ -50,7 +51,7 @@ const GameDetails = () => {
         <div>Title</div>
         <div>{game.title}</div>
         <div>Designer</div>
-        <div>{game.user?.username}</div>
+        <div>{game.designer}</div>
         <div>Description</div>
         <div>{game.description}</div>
         <div>release year</div>
@@ -59,8 +60,39 @@ const GameDetails = () => {
         <div>{game.time_to_complete_estimate} min</div>
         <div>recommended age</div>
         <div>{game.recommended_age} years of life completed</div>
+        <div className="flex justify-between">
+          {game.is_owner ? (
+            <div>
+              <button
+                onClick={() => {
+                  navigate(`/games/${gameId}/edit`);
+                }}
+                className="border px-2  rounded-xl"
+              >
+                edit
+              </button>{" "}
+            </div>
+          ) : (
+            <div></div>
+          )}
+          <div>
+            <button
+              onClick={() => {
+                navigate(`/new-post`);
+              }}
+              className="border px-2  rounded-md"
+            >
+              Upload Action Picture
+            </button>
+          </div>
+        </div>
       </div>
-      <GameReviews reviews={reviews} fetchReviews={fetchReviews} />
+      <GameReviews
+        fetchGames={fetchGames}
+        averageRating={game.average_rating}
+        reviews={reviews}
+        fetchReviews={fetchReviews}
+      />
     </div>
   );
 };

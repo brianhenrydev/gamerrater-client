@@ -1,38 +1,44 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-
-const GameReview = () => {
-  const navigate = useNavigate();
-  const { gameId } = useParams();
-  const [gameReview, setGameReview] = useState({
-    game: parseInt(gameId),
-    content: "",
-  });
-  const handleReview = () => {
-    if (!gameReview.game || !gameReview.content) {
-      window.alert("Could not save");
-    }
-    if (gameReview.game && gameReview.content) {
-      console.log("hi");
-      navigate(`/games/${gameId}`);
-    }
-  };
-
+const GameReview = ({
+  setIsModalOpen,
+  reviewContent,
+  handleReviewSubmit,
+  setGameReview,
+}) => {
   return (
-    <div className="flex flex-col m-6 border-4 p-2 rounded-lg">
-      <div>Write a review for this game</div>
-      <textarea
-        onChange={({ target: { value: textContent } }) => {
-          setGameReview((prev) => ({
-            ...prev,
-            content: textContent,
-          }));
-        }}
-        className="bg-blue-300 rounded-sm"
-      />
-      <button className="border rounded-lg m-2" onClick={handleReview}>
-        Save
-      </button>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-5 rounded-lg shadow-lg">
+        <h2 className="text-lg font-bold">Create a Review</h2>
+        <form onSubmit={handleReviewSubmit}>
+          <textarea
+            className="border rounded-lg w-full p-2"
+            rows="4"
+            defaultValue={reviewContent}
+            onChange={({ target: { value: textContent } }) => {
+              setGameReview((prev) => ({
+                ...prev,
+                content: textContent,
+              }));
+            }}
+            placeholder="Write your review here..."
+            required
+          />
+          <div className="flex justify-end mt-3">
+            <button
+              type="button"
+              className="mr-2 border rounded-lg p-2"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="border rounded-lg p-2 bg-blue-500 text-white"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

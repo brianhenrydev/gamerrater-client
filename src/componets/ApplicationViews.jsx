@@ -5,11 +5,12 @@ import { Login } from "../pages/Login.jsx";
 import Home from "../pages/Home";
 import GameList from "./GameList.jsx";
 import { Register } from "../pages/Register.jsx";
-import GameImageUpload from "./form/GameImageUpload.jsx";
+import GameImageUpload from "./form/B64GameImageUpload.jsx";
 import GamePictures from "./GamePictures.jsx";
 import GameDetails from "./GameDetails.jsx";
 import GameCreateForm from "./form/GameCreateForm.jsx";
 import GameReview from "./form/GameReview.jsx";
+import GameEditForm from "./form/GameEdit.jsx";
 
 export const ApplicationViews = () => {
   const [gamesState, setgamesState] = useState([
@@ -17,7 +18,7 @@ export const ApplicationViews = () => {
   ]);
 
   const fetchGames = () => {
-    return fetch("http://localhost:8000/games", {
+    return fetch("http://localhost:8000/games?orderby=created_at", {
       headers: {
         Authorization: `Token ${JSON.parse(localStorage.getItem("gamer_token")).token}`,
       },
@@ -49,6 +50,7 @@ export const ApplicationViews = () => {
             <Route path=":gameId">
               <Route index element={<GameDetails />} />
               <Route path="review" element={<GameReview />} />
+              <Route path="edit" element={<GameEditForm />} />
             </Route>
           </Route>
           <Route

@@ -16,7 +16,7 @@ const GamePictures = ({ games, fetchGames }) => {
       .then((images) => {
         setGamePictures(images.reverse());
         fetchGames();
-        setFilteredPics(images.reverse());
+        setFilteredPics(images);
       });
   }, []);
 
