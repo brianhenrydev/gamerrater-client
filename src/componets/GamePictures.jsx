@@ -50,8 +50,8 @@ const GamePictures = ({ games, fetchGames }) => {
       <div className="flex flex-col">
         {filteredPics.map((gp) => (
           <div key={gp.id} className="mx-12">
-            <div>
-              <img src={gp.image} alt="game image" />
+            <div className="border">
+              <img src={gp.image} className="" alt="game image" />
             </div>
             <div>{gp.game.title}</div>
             <div>{gp.user.username}</div>

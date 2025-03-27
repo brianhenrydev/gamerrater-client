@@ -72,7 +72,7 @@ const GameCreateForm = () => {
           >
             Category
           </label>
-          <CategorySelect setNewGame={setNewGame} />
+          <CategorySelect setGame={setNewGame} />
         </div>
         <div className="mb-4">
           <label

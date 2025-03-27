@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CategoryRadioSet from "../select/CategoryRadioSet";
+import { createGameImageString } from "../../utils/base64";
 
 const GameEditForm = () => {
   const navigate = useNavigate();
@@ -63,9 +64,13 @@ const GameEditForm = () => {
     }
   };
 
+  const handleImageChange = (event) => {
+    createGameImageString(event, setUpdatedGame, "image");
+  };
+
   return (
     <div className="max-w-md mx-auto p-4 border border-gray-300 rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Create a New Game</h2>
+      <h2 className="text-xl font-semibold mb-4">Edit Game</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
@@ -91,6 +96,21 @@ const GameEditForm = () => {
             Category
           </label>
           <CategoryRadioSet game={updatedGame} setGame={setUpdatedGame} />
+        </div>
+        <div>
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="title"
+          >
+            Upload game image
+            <div>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                className="border border-gray-300 rounded-sm p-1"
+              />
+            </div>
+          </label>
         </div>
         <div className="mb-4">
           <label
